@@ -11,9 +11,7 @@
 | first_name         | string | null: false |
 | kana_last_name     | string | null: false |
 | kana_first_name    | string | null: false |
-| birth_year         | string | null: false |
-| birth_month        | string | null: false |
-| birthday           | string | null: false |
+| birthday           | date   | null: false |
 
 
 ### Association
@@ -21,22 +19,21 @@
 - has_many :items
 - has_many :purchases
 - has_many :comments
-- has_one :delivery
 
 
 ## items テーブル
 
-| Column      | Type         | Options           |
-| ------      | ------       | -----------       |
-| item_name   | string       | null: false       |
-| description | text         | null: false       |
-| category    | string       | null: false       |
-| status      | string       | null: false       |
-| shipping_fee| string       | null: false       |
-| shipping    | string       | null: false       |
-| days        | string       | null: false       |
-| price       | integer      | null: false       |
-| user_id     | references   | foreign_key: true |
+| Column          | Type         | Options           |
+| ------          | ------       | -----------       |
+| item_name       | string       | null: false       |
+| description     | text         | null: false       |
+| category_id     | integer      | null: false       |
+| status_id       | integer      | null: false       |
+| shipping_fee_id | integer      | null: false       |
+| region_id       | integer      | null: false       |
+| days_id         | integer      | null: false       |
+| price           | integer      | null: false       |
+| user            | references   | foreign_key: true |
 
 
 
@@ -44,15 +41,14 @@
 
 - has_many :comments
 - has_one :purchase
-- has_one :delivery
 - belongs_to :user
 
 ## purchases テーブル
 
 | Column      | Type       | Options                        |
 | -------     | ---------- | ------------------------------ |
-| user_id     | references |  foreign_key: true             |
-| bought_item | string     |  null: false                   |
+| user        | references |  foreign_key: true             |
+| item        | references |  foreign_key: true             |
 
 
 ### Association
@@ -65,22 +61,19 @@
 
 ## deliveries テーブル
 
-| Column       | Type       | Options                        |
-| -------      | ---------- | ------------------------------ |
-| user_id      | references |  foreign_key: true             |
-| postcode     | string     |  null: false                   |
-| prefecture   | string     |  null: false                   |
-| city         | string     |  null: false                   |
-| house_number | string     |  null: false                   |
-| building     | string     |  null: false                   |
-| phone        | string     |  null: false                   |
+| Column        | Type       | Options                        |
+| -------       | ---------- | ------------------------------ |
+| purchase      | references |  foreign_key: true             |
+| postcode      | string     |  null: false                   |
+| prefecture_id | integer    |  null: false                   |
+| city          | string     |  null: false                   |
+| house_number  | string     |  null: false                   |
+| building      | string     |                                |
+| phone         | string     |  null: false                   |
 
 
 ### Association
-
-- belongs_to :user
 - belongs_to :purchase
-- belongs_to :item
 
 
 
@@ -88,8 +81,8 @@
 
 | Column      | Type       | Options                        |
 | -------     | ---------- | ------------------------------ |
-| user_id     | references |  foreign_key: true             |
-| item_id     | references |  foreign_key: true             |
+| user        | references |  foreign_key: true             |
+| item        | references |  foreign_key: true             |
 | content     | text       |                                |
 
 
