@@ -33,22 +33,22 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include("Category can't be blank")
       end
       it '商品の状態で「---」が選択されている場合は登録できない' do
-        @item.status_id = nil
+        @item.status_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Status can't be blank")
       end
       it '配送料の負担で「---」が選択されている場合は登録できない' do
-        @item.shipping_fee_id = nil
+        @item.shipping_fee_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Shipping fee can't be blank")
       end
       it '発送元の地域で「---」が選択されている場合は登録できない' do
-        @item.prefecture_id = nil
+        @item.prefecture_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Prefecture can't be blank")
       end
       it '発送までの日数で「---」が選択されている場合は登録できない' do
-        @item.shipping_day_id = nil
+        @item.shipping_day_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Shipping day can't be blank")
       end
