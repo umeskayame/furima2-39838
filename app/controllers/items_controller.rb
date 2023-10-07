@@ -13,6 +13,10 @@ class ItemsController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
+
+  def index
+    @items = Item.includes(:user).order("created_at DESC")
+  end
   
   private
 
