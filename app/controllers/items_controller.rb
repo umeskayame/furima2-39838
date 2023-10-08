@@ -1,5 +1,6 @@
 class ItemsController < ApplicationController
-  before_action :authenticate_user! , only: [:new, :create]
+  before_action :authenticate_user! , only: [:new, :create, :edit, :update]
+  before_action :contributor_confirmation , only: [:edit, :update]
   
   def new
     @item = Item.new
@@ -21,10 +22,30 @@ class ItemsController < ApplicationController
   def show
     @item = Item.find(params[:id])
   end
+
+  def edit
+    @item = Item.find(params[:id])
+  end
+  
+  def update
+    @item = Item.find(params[:id])
+    if @item.update(item_params)
+      redirect_to item_path(item.id)
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
   
   private
 
   def item_params
     params.require(:item).permit(:image,:item_name,:description,:category_id,:status_id,:shipping_fee_id,:prefecture_id,:shipping_day_id,:price).merge(user_id: current_user.id)
+  end
+  
+  def contributor_confirmation
+    @item = Item.find(params[:id])
+    unless current_user == @item.user
+    redirect_to root_path
+    end
   end
 end
