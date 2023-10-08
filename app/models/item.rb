@@ -1,5 +1,5 @@
 class Item < ApplicationRecord
-  #has_one :purchase
+  has_one :purchase
   belongs_to :user
   has_one_attached :image
   
@@ -9,6 +9,7 @@ class Item < ApplicationRecord
   belongs_to :shipping_fee
   belongs_to :prefecture
   belongs_to :shipping_day
+  
 
   validates :image, presence: true
   validates :image, presence: true
