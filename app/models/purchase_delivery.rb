@@ -1,6 +1,6 @@
 class PurchaseDelivery
   include ActiveModel::Model
-  attr_accessor :postcode, :prefecture_id, :city, :house_number, :building, :phone, :item_id, :user_id
+  attr_accessor :token, :postcode, :prefecture_id, :city, :house_number, :building, :phone, :item_id, :user_id
 
   with_options presence: true do
     validates :postcode, format: { with: /\A\d{3}[-]\d{4}\z/, message: 'を入力してください' }
