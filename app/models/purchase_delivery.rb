@@ -3,13 +3,14 @@ class PurchaseDelivery
   attr_accessor :token, :postcode, :prefecture_id, :city, :house_number, :building, :phone, :item_id, :user_id
 
   with_options presence: true do
-    validates :postcode, format: { with: /\A\d{3}[-]\d{4}\z/, message: 'を入力してください' }
-    validates :prefecture_id
+    validates :postcode, format: { with: /\A\d{3}[-]\d{4}\z/, message: 'is invalid. Enter it as follows (e.g. 123-4567)' }
+    validates :prefecture_id, numericality: { other_than: 1 , message: "can't be blank"}
     validates :city
     validates :house_number
-    validates :phone, format: { with: /\A\d{10,11}\z/, message: 'を入力してください' }
+    validates :phone, format: { with: /\A\d{10,11}\z/ , message: "number is invalid. Input only number"}
     validates :user_id
     validates :item_id
+    validates :token
   end
 
   def save
