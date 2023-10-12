@@ -1,11 +1,23 @@
 class PurchasesController < ApplicationController
   before_action :authenticate_user! , only: [:index, :new, :create]
 
+
   def index
     gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
     @item = Item.find(params[:item_id])
     @purchase_delivery = PurchaseDelivery.new
-    
+
+    if user_signed_in? && @item.purchase != nil
+      if current_user.id != @item.user_id 
+      redirect_to root_path and return
+      end
+    end
+
+    if user_signed_in?
+      if current_user.id == @item.user_id 
+        redirect_to root_path and return
+      end
+    end
   end
 
 
@@ -29,6 +41,7 @@ class PurchasesController < ApplicationController
   def purchase_params
     params.require(:purchase_delivery).permit( :purchase, :postcode, :prefecture_id, :city, :house_number, :building, :phone).merge(user_id: current_user.id, item_id: params[:item_id], token: params[:token])
   end
+
 
   def pay_item
     Payjp.api_key = ENV["PAYJP_SECRET_KEY"]  # PAY.JPテスト秘密鍵
