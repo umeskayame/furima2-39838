@@ -22,6 +22,7 @@ class PurchasesController < ApplicationController
   end
   
   def create
+    gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
     @purchase_delivery = PurchaseDelivery.new(purchase_params)
     if @purchase_delivery.valid?
       pay_item
