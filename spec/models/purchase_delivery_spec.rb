@@ -58,13 +58,25 @@ RSpec.describe PurchaseDelivery, type: :model do
       it '電話番号が空だと保存できない' do
         @purchase_delivery.phone = ''
         @purchase_delivery.valid?
-        expect(@purchase_delivery.errors.full_messages).to include("Phone can't be blank")
+        expect(@purchase_delivery.errors.full_messages).to include("Phone is invalid")
         sleep 1
       end
       it '電話番号にハイフンを含むと保存できない' do
         @purchase_delivery.phone = '090-1234-5678'
         @purchase_delivery.valid?
-        expect(@purchase_delivery.errors.full_messages).to include("Phone number is invalid. Input only number")
+        expect(@purchase_delivery.errors.full_messages).to include("Phone is invalid")
+        sleep 1
+      end
+      it '電話番号が9桁以下の場合登録できない' do
+        @purchase_delivery.phone = '09012345'
+        @purchase_delivery.valid?
+        expect(@purchase_delivery.errors.full_messages).to include("Phone is invalid")
+        sleep 1
+      end
+      it '電話番号が12桁以上の場合登録できない' do
+        @purchase_delivery.phone = '0901234567890123'
+        @purchase_delivery.valid?
+        expect(@purchase_delivery.errors.full_messages).to include("Phone is invalid")
         sleep 1
       end
       it 'userが紐付いていないと保存できない' do

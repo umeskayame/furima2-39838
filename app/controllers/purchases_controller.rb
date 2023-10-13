@@ -1,10 +1,11 @@
 class PurchasesController < ApplicationController
   before_action :authenticate_user! , only: [:index, :new, :create]
+  before_action :set_purchase, only: [:index, :create]
+
 
 
   def index
     gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
-    @item = Item.find(params[:item_id])
     @purchase_delivery = PurchaseDelivery.new
 
     if user_signed_in? && @item.purchase != nil
@@ -19,13 +20,8 @@ class PurchasesController < ApplicationController
       end
     end
   end
-
-
-  def new
-  end
   
   def create
-    @item = Item.find(params[:item_id])
     @purchase_delivery = PurchaseDelivery.new(purchase_params)
     if @purchase_delivery.valid?
       pay_item
@@ -40,6 +36,10 @@ class PurchasesController < ApplicationController
   
   def purchase_params
     params.require(:purchase_delivery).permit( :purchase, :postcode, :prefecture_id, :city, :house_number, :building, :phone).merge(user_id: current_user.id, item_id: params[:item_id], token: params[:token])
+  end
+
+  def set_purchase
+    @item = Item.find(params[:item_id])
   end
 
 
