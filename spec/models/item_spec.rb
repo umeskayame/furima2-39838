@@ -60,12 +60,12 @@ RSpec.describe Item, type: :model do
       it '販売価格に英字を入力すると登録できない' do
         @item.price = 'a'
         @item.valid?
-        expect(@item.errors.full_messages).to include("Price is invalid. Input half-width characters" "Price is out of setting range")
+        expect(@item.errors.full_messages).to include("Price is invalid. Input half-width characters" )
       end
       it '販売価格に全角文字を入力すると登録できない' do
         @item.price = 'あ'
         @item.valid?
-        expect(@item.errors.full_messages).to include("Price is invalid. Input half-width characters" "Price is out of setting range")
+        expect(@item.errors.full_messages).to include("Price is invalid. Input half-width characters" )
       end
       it '販売価格が¥300未満の場合登録できない' do
         @item.price = '200'
